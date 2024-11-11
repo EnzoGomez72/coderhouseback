@@ -1,0 +1,12 @@
+[
+	{
+		"id": 1,
+		"title": "remera negra",
+		"description": "remera manga larga",
+		"code": "9999",
+		"price": 55000,
+		"status": true,
+		"stock": 20,
+		"category": "tops"
+	}
+]
