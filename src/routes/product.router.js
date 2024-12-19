@@ -1,6 +1,5 @@
 import { Router } from "express";
 import ProductManager from "../managers/ProductManager.js";
-import uploader from "../utils/uploader.js";
 
 const router = Router();
 const productManager = new ProductManager();
@@ -10,7 +9,7 @@ router.get("/", async (req, res) => {
         const products = await productManager.getAll(req.query);
         res.status(200).json({ status: "success", payload: products });
     } catch (error) {
-        res.status(error.code || 500).json({ status: "error", message: error.message });
+        res.status(error.code).json({ status: "error", message: error.message });
     }
 });
 
@@ -19,25 +18,25 @@ router.get("/:id", async (req, res) => {
         const product = await productManager.getOneById(req.params.id);
         res.status(200).json({ status: "success", payload: product });
     } catch (error) {
-        res.status(error.code || 500).json({ status: "error", message: error.message });
+        res.status(error.code).json({ status: "error", message: error.message });
     }
 });
 
-router.post("/", uploader.single("file"), async (req, res) => {
+router.post("/", async (req, res) => {
     try {
-        const product = await productManager.createProduct(req.body, req.file);
+        const product = await productManager.createProduct(req.body);
         res.status(201).json({ status: "success", payload: product });
     } catch (error) {
-        res.status(error.code || 500).json({ status: "error", message: error.message });
+        res.status(error.code).json({ status: "error", message: error.message });
     }
 });
 
-router.put("/:id", uploader.single("file"), async (req, res) => {
+router.put("/:id", async (req, res) => {
     try {
-        const product = await productManager.updateOneById(req.params.id, req.body, req.file);
+        const product = await productManager.updateOneById(req.params.id, req.body);
         res.status(200).json({ status: "success", payload: product });
     } catch (error) {
-        res.status(error.code || 500).json({ status: "error", message: error.message });
+        res.status(error.code).json({ status: "error", message: error.message });
     }
 });
 
@@ -46,8 +45,10 @@ router.delete("/:id", async (req, res) => {
         await productManager.deleteOneById(req.params.id);
         res.status(200).json({ status: "success" });
     } catch (error) {
-        res.status(error.code || 500).json({ status: "error", message: error.message });
+        res.status(error.code).json({ status: "error", message: error.message });
     }
 });
 
 export default router;
+
+/*file?.filename*/
